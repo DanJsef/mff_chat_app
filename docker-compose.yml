@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  client:
+    build:
+      context: ./client/
+      target: base
+    command: npm run start
+    environment:
+      REACT_APP_SERVER_ADDRESS: ${SERVER_SERVICE_ADDRESS}:${SERVER_SERVICE_PORT}
+    ports:
+      - ${CLIENT_SERVICE_ADDRESS}:${CLIENT_SERVICE_PORT}:3000
+    volumes:
+      - ./client/public/:/app/public/
+      - ./client/src/:/app/src/
+      - ./client/package.json:/app/package.json
+      - ./client/package-lock.json:/app/package-lock.json
+  server:
+    build:
+      context: ./server/
+      target: base
+    environment:
+      DB_ADDRESS: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_DATABASE: chat_app
+      CLIENT_ADDRESS: http://${CLIENT_SERVICE_ADDRESS}:${CLIENT_SERVICE_PORT}
+    command: npm run watch
+    ports:
+      - ${SERVER_SERVICE_ADDRESS}:${SERVER_SERVICE_PORT}:3001
+    volumes:
+      - ./server/src/:/app/src/
+      - ./server/package.json:/app/package.json
+      - ./server/package-lock.json:/app/package-lock.json
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./database:/tmp/database
+    command: mysqld --init-file="/tmp/database/init_db.sql"
+  adminer:
+    image: adminer
+    ports:
+      - ${ADMINER_SERVICE_ADDRESS}:${ADMINER_SERVICE_PORT}:8080
+    depends_on:
+      - db

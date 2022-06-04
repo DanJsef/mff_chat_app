@@ -1,0 +1,36 @@
+.h-10 {
+  height: 10%;
+}
+.h-90 {
+  height: 90%;
+}
+.h-50px {
+  height: 5px;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+.break-word {
+  white-space: -moz-pre-wrap; /* Mozilla */
+  white-space: -hp-pre-wrap; /* HP printers */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: pre-wrap; /* CSS 2.1 */
+  white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+  word-wrap: break-word; /* IE */
+  word-break: break-all;
+}
+
+.mr-0 {
+  margin-right: 0px !important;
+}
+.clickable {
+  cursor: pointer;
+}
+.text-right {
+  text-align: right !important;
+}
